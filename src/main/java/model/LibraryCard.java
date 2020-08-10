@@ -5,10 +5,10 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class LibraryCard {
-    private PersonBio person;
+    private User person;
     Map<String, LocalDate> borrowedBooks;
 
-    public LibraryCard(PersonBio person) {
+    public LibraryCard(User person) {
         this.person = person;
         this.borrowedBooks = new HashMap<>();
     }

@@ -1,6 +1,8 @@
 package model;
 
-public class Staff extends PersonBio {
+import java.time.LocalDate;
+
+public class Staff extends User {
     private String staffType;
     private String role;
     private double salary;
@@ -34,5 +36,11 @@ public class Staff extends PersonBio {
 
     public void setSalary(double salary) {
         this.salary = salary;
+    }
+
+    @Override
+    public int getRanking() {
+        //System.out.println("Staff ordinal: " + Grade.CLASS_6.ordinal() + 1);
+        return "Academic".equals(getStaffType()) ? Grade.CLASS_6.ordinal() + 1 : Grade.CLASS_1.ordinal();
     }
 }
