@@ -24,7 +24,7 @@ public class LibraryUtil {
 
     // Method add new book to library's book collection or updates copy of old books
     public static void addBookToLibrary(String ISBN, String bookName, String authorName) {
-        bookCardUtil.addBook(ISBN, bookName, authorName);
+        bookCardUtil.createBookCard(ISBN, bookName, authorName);
     }
 
     // user is added to priorityQueue with the name of the book user wants to borrow
@@ -76,7 +76,7 @@ public class LibraryUtil {
             return "book taken";
         } else if (libraryCardUtil.isEligible(user, bookName)) {
             bookCardUtil.collectBookFromShelf(bookName);
-            libraryCardUtil.addBorrowedBook(user, bookName);
+            libraryCardUtil.addToLibraryCard(user, bookName);
             return "book successfully borrowed";
         } else {
             return "User is not eligible";

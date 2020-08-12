@@ -17,8 +17,8 @@ class BookCardUtilTest {
     @Test
     @DisplayName("Book Is Added Successfully")
     void addBookTest() {
-        bookCardUtil.addBook("001", "Purple Hibiscus", "Chimamanda Adichie");
-        bookCardUtil.addBook("002", "Things Fall Apart", "Chinua Achebe");
+        bookCardUtil.createBookCard("001", "Purple Hibiscus", "Chimamanda Adichie");
+        bookCardUtil.createBookCard("002", "Things Fall Apart", "Chinua Achebe");
 
         assertAll(
                 () -> assertEquals(2, bookCardUtil.bookCardCatalog.size()),
@@ -30,8 +30,8 @@ class BookCardUtilTest {
     @Test
     @DisplayName("Check unique key value when adding another copy of a particular Book")
     void addBookUniqueKeyTest() {
-        bookCardUtil.addBook("001", "Purple Hibiscus", "Chimamanda Adichie");
-        bookCardUtil.addBook("001", "Purple Hibiscus", "Chimamanda Adichie");
+        bookCardUtil.createBookCard("001", "Purple Hibiscus", "Chimamanda Adichie");
+        bookCardUtil.createBookCard("001", "Purple Hibiscus", "Chimamanda Adichie");
 
         assertAll(
                 () -> assertEquals(1, bookCardUtil.bookCardCatalog.size()),
@@ -41,7 +41,7 @@ class BookCardUtilTest {
 
     @Test
     void containsKeyTest() {
-        bookCardUtil.addBook("001", "Purple Hibiscus", "Chimamanda Adichie");
+        bookCardUtil.createBookCard("001", "Purple Hibiscus", "Chimamanda Adichie");
         assertAll(
                 () -> assertTrue(bookCardUtil.containsBook("purple hibiscus")),
                 () -> assertFalse(bookCardUtil.containsBook("things fall apart"))
@@ -50,7 +50,7 @@ class BookCardUtilTest {
 
     @Test
     void getTotalNoOfCopies() {
-        bookCardUtil.addBook("001", "Purple Hibiscus", "Chimamanda Adichie");
+        bookCardUtil.createBookCard("001", "Purple Hibiscus", "Chimamanda Adichie");
 
         assertEquals(1, bookCardUtil.getTotalNoOfCopies("Purple Hibiscus"));
     }
@@ -65,13 +65,13 @@ class BookCardUtilTest {
 
     @Test
     void isOnShelf() {
-        bookCardUtil.addBook("001", "Purple Hibiscus", "Chimamanda Adichie");
+        bookCardUtil.createBookCard("001", "Purple Hibiscus", "Chimamanda Adichie");
         assertTrue(bookCardUtil.isOnShelf("Purple Hibiscus"));
     }
 
     @Test
     void returnBookToShelf() {
-        bookCardUtil.addBook("001", "Purple Hibiscus", "Chimamanda Adichie");
+        bookCardUtil.createBookCard("001", "Purple Hibiscus", "Chimamanda Adichie");
         bookCardUtil.collectBookFromShelf("Purple Hibiscus");
         bookCardUtil.returnBookToShelf("Purple Hibiscus");
         assertEquals(0, bookCardUtil.bookCardCatalog.get("purple hibiscus").getCopiesBorrowed());
@@ -80,7 +80,7 @@ class BookCardUtilTest {
 
     @Test
     void collectBookFromShelf() {
-        bookCardUtil.addBook("001", "Purple Hibiscus", "Chimamanda Adichie");
+        bookCardUtil.createBookCard("001", "Purple Hibiscus", "Chimamanda Adichie");
         bookCardUtil.collectBookFromShelf("Purple Hibiscus");
         assertEquals(1, bookCardUtil.bookCardCatalog.get("purple hibiscus").getCopiesBorrowed());
     }

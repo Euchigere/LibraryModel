@@ -22,7 +22,7 @@ public class LibraryCardUtil {
     }
 
     // Instantiates new library card for new users and or update the information on book borrowed
-    public void addBorrowedBook(User user, String bookName) {
+    public void addToLibraryCard(User user, String bookName) {
         bookName = bookName.toLowerCase();
         LibraryCard libraryCard;
 

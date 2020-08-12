@@ -22,7 +22,7 @@ public class BookCardUtil {
     }
 
     // Method to create a new BookCard for each book in the library
-    public void addBook(String ISBN, String bookName, String authorName) {
+    public void createBookCard(String ISBN, String bookName, String authorName) {
         BookCard book;
         if (containsBook(bookName.toLowerCase())) {
             book = bookCardCatalog.get(bookName.toLowerCase());

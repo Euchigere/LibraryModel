@@ -19,8 +19,8 @@ class LibraryCardUtilTest {
     void testAddBorrowedBook() {
         Student student = new Student("Prince", "male", "1992-09-21",
                 "07068660641", "002", Grade.CLASS_3);
-        libraryCardUtil.addBorrowedBook(student, "Purple Hibiscus");
-        libraryCardUtil.addBorrowedBook(student, "Chike and the river");
+        libraryCardUtil.addToLibraryCard(student, "Purple Hibiscus");
+        libraryCardUtil.addToLibraryCard(student, "Chike and the river");
         LibraryCard libraryCard = libraryCardUtil.libraryCardCatalog.get(student.getName());
 
         assertAll(
@@ -35,8 +35,8 @@ class LibraryCardUtilTest {
     void testThatAddBorrowedBookAddsOnlyUniqueValue() {
         Student student = new Student("Prince", "male", "1992-09-21",
                 "07068660641", "002", Grade.CLASS_3);
-        libraryCardUtil.addBorrowedBook(student, "Purple Hibiscus");
-        libraryCardUtil.addBorrowedBook(student, "Purple Hibiscus");
+        libraryCardUtil.addToLibraryCard(student, "Purple Hibiscus");
+        libraryCardUtil.addToLibraryCard(student, "Purple Hibiscus");
         LibraryCard libraryCard = libraryCardUtil.libraryCardCatalog.get(student.getName());
 
         assertAll(
@@ -51,7 +51,7 @@ class LibraryCardUtilTest {
     void testReturnBook() {
         Student student = new Student("Prince", "male", "1992-09-21",
                 "07068660641", "002", Grade.CLASS_3);
-        libraryCardUtil.addBorrowedBook(student, "Purple Hibiscus");
+        libraryCardUtil.addToLibraryCard(student, "Purple Hibiscus");
         libraryCardUtil.returnBook(student, "Purple Hibiscus");
         LibraryCard libraryCard = libraryCardUtil.libraryCardCatalog.get(student.getName());
 
@@ -69,7 +69,7 @@ class LibraryCardUtilTest {
                 "07068660641", "002", Grade.CLASS_3);
         Student student2 = new Student("Johnbosco", "male", "1992-09-21",
                 "07068660641", "003", Grade.CLASS_5);
-        libraryCardUtil.addBorrowedBook(student1, "Purple Hibiscus");
+        libraryCardUtil.addToLibraryCard(student1, "Purple Hibiscus");
 
         assertAll(
                 () -> assertTrue(libraryCardUtil.hasUser(student1.getName())),
@@ -83,7 +83,7 @@ class LibraryCardUtilTest {
                 "07068660641", "002", Grade.CLASS_3);
         Student student2 = new Student("Johnbosco", "male", "1992-09-21",
                 "07068660641", "003", Grade.CLASS_5);
-        libraryCardUtil.addBorrowedBook(student1, "Purple Hibiscus");
+        libraryCardUtil.addToLibraryCard(student1, "Purple Hibiscus");
 
         assertAll(
                 () -> assertFalse(libraryCardUtil.isEligible(student1, "purple hibiscus")),

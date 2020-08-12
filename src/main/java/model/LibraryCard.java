@@ -10,17 +10,17 @@ import java.util.HashMap;
  *      and the date the book was borrowed
  */
 public class LibraryCard {
-    private User person;
+    private User user;
     private Map<String, LocalDate> borrowedBooks;
 
-    public LibraryCard(User person) {
-        this.person = person;
+    public LibraryCard(User user) {
+        this.user = user;
         this.borrowedBooks = new HashMap<>();
     }
 
     // getters for instance variables
-    public User getPerson() {
-        return person;
+    public User getUser() {
+        return user;
     }
 
     public Map<String, LocalDate> getBorrowedBooks() {
