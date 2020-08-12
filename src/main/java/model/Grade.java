@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * Enum constants for the grades(class) of the student
+ */
 public enum Grade {
     CLASS_1("Js1"),
     CLASS_2("Js2"),
@@ -13,6 +16,7 @@ public enum Grade {
         this.grade = grade;
     }
 
+    // returns the enum object of a grade
     public static Grade valueOfGrade(String grade) {
         for (Grade g : Grade.values()) {
             if (g.grade.equals(grade)) {

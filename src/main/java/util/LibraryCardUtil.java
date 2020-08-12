@@ -7,35 +7,45 @@ import java.util.Map;
 import model.User;
 
 /**
- * LibraryCardUtil contains controller methods for the library model
- * It is composed of LibraryCaryUtil, BookCardUtil and MyPriorityQueue custom classes
+ * LibraryCardUtil class
+ * Contains methods to modify and access the libraryCard catalog
+ * The library card catalog contains records of all the library cards in the library
  */
 
 public class LibraryCardUtil {
+    // record of all the library cards in the library
     public Map<String, LibraryCard> libraryCardCatalog = new HashMap<>();
 
+    // checks if user is in catalog
+    public boolean hasUser(String userName) {
+        return libraryCardCatalog.containsKey(userName);
+    }
+
+    // Instantiates new library card for new users and or update the information on book borrowed
     public void addBorrowedBook(User user, String bookName) {
         bookName = bookName.toLowerCase();
         LibraryCard libraryCard;
 
-        if (!libraryCardCatalog.containsKey(user.getName())) {
+        // if new user, create new library card
+        if (!hasUser(user.getName())) {
             libraryCard = new LibraryCard(user);
             libraryCardCatalog.put(user.getName(), libraryCard);
         }
-
         libraryCard = libraryCardCatalog.get(user.getName());
 
-        if (libraryCard.getBorrowedBooks().containsKey(bookName)
-                || libraryCard.getBorrowedBooks().size() == 3) {
+
+        if (!isEligible(user, bookName)) {
             return;
         }
+        // stores record of book borrowed and date in users library card
         libraryCard
                 .getBorrowedBooks()
                 .put(bookName, LocalDate.now());
     }
 
+    // removes the record of book user has returned from user's library card
     public void returnBook(User user, String bookName) {
-        if (!libraryCardCatalog.containsKey(user.getName())) {
+        if (!hasUser(user.getName())) {
             return;
         }
         bookName = bookName.toLowerCase();
@@ -46,7 +56,17 @@ public class LibraryCardUtil {
                 .remove(bookName);
     }
 
-    public boolean containsKey(String userName) {
-        return libraryCardCatalog.containsKey(userName);
+    // checks if user is eligible to borrow book
+    // That is that user doesn't borrow the same book more than once
+    // and restricts user to borrow maximum of 3 books
+    public boolean isEligible(User user, String bookName) {
+        bookName = bookName.toLowerCase();
+        if (!hasUser(user.getName())) {
+            return true;
+        } else if (libraryCardCatalog.get(user.getName()).getBorrowedBooks().containsKey(bookName)
+                || libraryCardCatalog.get(user.getName()).getBorrowedBooks().size() == 3) {
+            return false;
+        }
+        return true;
     }
 }

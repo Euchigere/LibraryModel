@@ -7,6 +7,6 @@ package util;
  *
  * getRanking() method returns an integer indicating the rank of the object
  */
-public interface Ranking {
+public interface Rankable {
     int getRanking();
 }

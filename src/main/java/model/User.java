@@ -1,14 +1,19 @@
 package model;
 
-import util.Ranking;
+import util.Rankable;
 import java.time.LocalDate;
 
-public abstract class User implements Ranking {
+/**
+ *  User abstract class implements Rankable interface
+ *  Instantiates basic information of a user
+ */
+public abstract class User implements Rankable {
     private String name;
     private String gender;
     private LocalDate birthDate;
     private String contact;
 
+    // enum constant for user gender
     private enum Gender {
         MALE("Male"), FEMALE("Female");
 
@@ -43,6 +48,7 @@ public abstract class User implements Ranking {
         this.contact = contact;
     }
 
+    // getters and setters of instance variables
     public String getName() {
         return name;
     }

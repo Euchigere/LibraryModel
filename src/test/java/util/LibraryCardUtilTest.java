@@ -64,14 +64,32 @@ class LibraryCardUtilTest {
     }
 
     @Test
-    void testContainsKeyMethod() {
-        Student student = new Student("Prince", "male", "1992-09-21",
+    void testHasUserMethod() {
+        Student student1 = new Student("Prince", "male", "1992-09-21",
                 "07068660641", "002", Grade.CLASS_3);
-        libraryCardUtil.addBorrowedBook(student, "Purple Hibiscus");
+        Student student2 = new Student("Johnbosco", "male", "1992-09-21",
+                "07068660641", "003", Grade.CLASS_5);
+        libraryCardUtil.addBorrowedBook(student1, "Purple Hibiscus");
 
         assertAll(
-                () -> assertTrue(libraryCardUtil.containsKey(student.getName()))
-
+                () -> assertTrue(libraryCardUtil.hasUser(student1.getName())),
+                () -> assertFalse(libraryCardUtil.hasUser(student2.getName()))
         );
+    }
+
+    @Test
+    void isEligibleTest() {
+        Student student1 = new Student("Prince", "male", "1992-09-21",
+                "07068660641", "002", Grade.CLASS_3);
+        Student student2 = new Student("Johnbosco", "male", "1992-09-21",
+                "07068660641", "003", Grade.CLASS_5);
+        libraryCardUtil.addBorrowedBook(student1, "Purple Hibiscus");
+
+        assertAll(
+                () -> assertFalse(libraryCardUtil.isEligible(student1, "purple hibiscus")),
+                () -> assertTrue(libraryCardUtil.isEligible(student1, "eng 101")),
+                () -> assertTrue(libraryCardUtil.isEligible(student2, "purple hibiscus"))
+        );
+
     }
 }

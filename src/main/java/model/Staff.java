@@ -1,6 +1,11 @@
 package model;
 
-import java.time.LocalDate;
+/**
+ *  Staff class extends User class
+ *  Instantiates more information about a staff
+ *  implement getRanking method from Rankable interface
+ */
+
 
 public class Staff extends User {
     private String staffType;
@@ -14,11 +19,12 @@ public class Staff extends User {
         this.salary = salary;
     }
 
+    // getters and setters of instance variable
     public String getStaffType() {
         return staffType;
     }
 
-    public void setStaffType(String staffType) {
+    private void setStaffType(String staffType) {
         this.staffType = staffType;
     }
 
@@ -26,7 +32,7 @@ public class Staff extends User {
         return role;
     }
 
-    public void setRole(String role) {
+    private void setRole(String role) {
         this.role = role;
     }
 
@@ -38,6 +44,7 @@ public class Staff extends User {
         this.salary = salary;
     }
 
+    // returns the ranking of a staff to used for priority queue
     @Override
     public int getRanking() {
         return "Academic".equals(getStaffType()) ? Grade.CLASS_6.ordinal() + 1 : Grade.CLASS_1.ordinal();

@@ -1,7 +1,10 @@
 package model;
 
-import java.time.LocalDate;
-
+/**
+ *  Student class extends User class
+ *  Instantiates more information about a student
+ *  implement getRanking method from Rankable interface
+ */
 public class Student extends User {
     private String matricNo;
     private String grade;
@@ -12,6 +15,7 @@ public class Student extends User {
         this.grade = grade.toString();
     }
 
+    // getters and setters of instance variables
     public String getMatricNo() {
         return matricNo;
     }
@@ -28,6 +32,7 @@ public class Student extends User {
         this.grade = grade;
     }
 
+    // returns the ranking of a student to used for priority queue
     @Override
     public int getRanking() {
         return Grade.valueOfGrade(grade).ordinal();

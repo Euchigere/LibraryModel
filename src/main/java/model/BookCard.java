@@ -1,5 +1,10 @@
 package model;
 
+/**
+ * BookCard class
+ * Contains information about a particular book in a library,
+ *      the total no of copies and also the no of copies borrowed(lent)
+ */
 public class BookCard {
     private String ISBN;
     private String bookName;
@@ -15,6 +20,7 @@ public class BookCard {
         this.copiesBorrowed = 0;
     }
 
+    // getters and setters of all the fields
     public String getBookName() {
         return bookName;
     }
