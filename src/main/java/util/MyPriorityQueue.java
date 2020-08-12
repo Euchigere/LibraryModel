@@ -35,4 +35,12 @@ public class MyPriorityQueue {
     public Map.Entry<User, String> peek() {
         return priorityQueue.get(0);
     }
+
+    public void clear() {
+        priorityQueue.clear();
+    }
+
+    public int size() {
+        return priorityQueue.size();
+    }
 }

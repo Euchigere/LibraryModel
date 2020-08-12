@@ -43,8 +43,8 @@ class BookCardUtilTest {
     void containsKeyTest() {
         bookCardUtil.addBook("001", "Purple Hibiscus", "Chimamanda Adichie");
         assertAll(
-                () -> assertTrue(bookCardUtil.containsKey("purple hibiscus")),
-                () -> assertFalse(bookCardUtil.containsKey("things fall apart"))
+                () -> assertTrue(bookCardUtil.containsBook("purple hibiscus")),
+                () -> assertFalse(bookCardUtil.containsBook("things fall apart"))
         );
     }
 

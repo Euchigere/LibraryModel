@@ -15,15 +15,23 @@ public class BookCard {
         this.copiesBorrowed = 0;
     }
 
+    public String getBookName() {
+        return bookName;
+    }
+
     public int getTotalNoOfCopies() {
         return totalNoOfCopies;
     }
 
-    public void addMoreCopy() {
-        totalNoOfCopies += 1;
+    public void setTotalNoOfCopies(int totalNoOfCopies) {
+        this.totalNoOfCopies = totalNoOfCopies;
     }
 
-    public boolean isOnShelf() {
-        return copiesBorrowed < totalNoOfCopies;
+    public int getCopiesBorrowed() {
+        return copiesBorrowed;
+    }
+
+    public void setCopiesBorrowed(int copiesBorrowed) {
+        this.copiesBorrowed = copiesBorrowed;
     }
 }

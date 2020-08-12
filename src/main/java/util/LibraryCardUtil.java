@@ -5,7 +5,11 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import model.User;
-import model.LibraryCard;
+
+/**
+ * LibraryCardUtil contains controller methods for the library model
+ * It is composed of LibraryCaryUtil, BookCardUtil and MyPriorityQueue custom classes
+ */
 
 public class LibraryCardUtil {
     public Map<String, LibraryCard> libraryCardCatalog = new HashMap<>();
@@ -14,12 +18,12 @@ public class LibraryCardUtil {
         bookName = bookName.toLowerCase();
         LibraryCard libraryCard;
 
-        if (libraryCardCatalog.containsKey(user.getName())) {
-            libraryCard = libraryCardCatalog.get(user.getName());
-        } else {
+        if (!libraryCardCatalog.containsKey(user.getName())) {
             libraryCard = new LibraryCard(user);
             libraryCardCatalog.put(user.getName(), libraryCard);
         }
+
+        libraryCard = libraryCardCatalog.get(user.getName());
 
         if (libraryCard.getBorrowedBooks().containsKey(bookName)
                 || libraryCard.getBorrowedBooks().size() == 3) {

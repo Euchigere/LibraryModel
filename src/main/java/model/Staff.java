@@ -40,7 +40,6 @@ public class Staff extends User {
 
     @Override
     public int getRanking() {
-        //System.out.println("Staff ordinal: " + Grade.CLASS_6.ordinal() + 1);
         return "Academic".equals(getStaffType()) ? Grade.CLASS_6.ordinal() + 1 : Grade.CLASS_1.ordinal();
     }
 }

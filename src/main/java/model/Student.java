@@ -30,7 +30,6 @@ public class Student extends User {
 
     @Override
     public int getRanking() {
-        //System.out.println(Grade.valueOfGrade(grade).ordinal());
         return Grade.valueOfGrade(grade).ordinal();
     }
 }
