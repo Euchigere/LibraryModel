@@ -23,7 +23,7 @@ class RankableTest {
 
         assertAll(
                 () -> assertEquals(0, student1.getRanking()),
-                () -> assertEquals(2,student2.getRanking()),
+                () -> assertEquals(2, student2.getRanking()),
                 () -> assertEquals(4, student3.getRanking()),
                 () -> assertEquals(6, teacher1.getRanking()),
                 () -> assertEquals(6, teacher2.getRanking())

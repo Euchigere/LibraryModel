@@ -1,5 +1,7 @@
 package model;
 
+import java.util.stream.Stream;
+
 /**
  * Enum constants for the grades(class) of the student
  */
@@ -18,12 +20,10 @@ public enum Grade {
 
     // returns the enum object of a grade
     public static Grade valueOfGrade(String grade) {
-        for (Grade g : Grade.values()) {
-            if (g.grade.equals(grade)) {
-                return g;
-            }
-        }
-        return null;
+        return Stream
+                .of(Grade.values())
+                .filter(e -> grade.equals(e.grade))
+                .findFirst().orElse(null);
     }
 
     @Override

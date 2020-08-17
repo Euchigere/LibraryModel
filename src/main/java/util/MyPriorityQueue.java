@@ -4,6 +4,7 @@ import model.User;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.stream.IntStream;
 
 /**
  * Custom priority queue implementation
@@ -19,16 +20,17 @@ public class MyPriorityQueue {
             return false;
         }
 
-        // Loops through queue an insert entry at the appropriate position
-        for (int i = 0; i < priorityQueue.size(); i++) {
-            if (simpleEntry.getValue().equals(priorityQueue.get(i).getValue())
-                && simpleEntry.getKey().getRanking() > priorityQueue.get(i).getKey().getRanking()) {
-                priorityQueue.add(i, simpleEntry);
-                return true;
-            }
-        }
-        // Adds entry at the back of the queue if otherwise
-        priorityQueue.add(simpleEntry);
+        // Loops through queue to find appropriate position
+        int index = IntStream
+                        .range(0, priorityQueue.size())
+                        .filter(
+                            i -> simpleEntry.getValue().equals(priorityQueue.get(i).getValue())
+                                && simpleEntry.getKey().getRanking() > priorityQueue.get(i).getKey().getRanking()
+                        )
+                        .findFirst().orElse(priorityQueue.size());
+
+        // Adds entry at the appropriate position
+        priorityQueue.add(index, simpleEntry);
         return true;
     }
 
