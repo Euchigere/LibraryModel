@@ -4,7 +4,9 @@ import model.User;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * Custom priority queue implementation
@@ -12,7 +14,7 @@ import java.util.stream.IntStream;
 
 public class MyPriorityQueue {
     // Array implemented as queue to save entries
-    List<Map.Entry<User, String>> priorityQueue = new ArrayList<>();
+    private List<Map.Entry<User, String>> priorityQueue = new ArrayList<>();
 
     public boolean add(Map.Entry<User, String> simpleEntry) {
         // Ensures only unique entries are added
@@ -57,5 +59,9 @@ public class MyPriorityQueue {
     // return the size of the queue
     public int size() {
         return priorityQueue.size();
+    }
+
+    public List<Map.Entry<User, String>> getQueue() {
+        return priorityQueue;
     }
 }

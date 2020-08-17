@@ -75,7 +75,7 @@ class MyPriorityQueueTest {
 
         assertAll(
                 () -> assertEquals(new AbstractMap.SimpleImmutableEntry<>(student, "purple hibiscus"), myPriorityQueue.peek()),
-                () -> assertTrue(myPriorityQueue.priorityQueue.contains(new AbstractMap.SimpleEntry<>(student, "purple hibiscus"))),
+                () -> assertTrue(myPriorityQueue.getQueue().contains(new AbstractMap.SimpleEntry<>(student, "purple hibiscus"))),
                 () -> assertEquals(1, myPriorityQueue.size())
         );
     }

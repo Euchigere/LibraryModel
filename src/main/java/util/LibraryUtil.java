@@ -46,12 +46,10 @@ public class LibraryUtil {
             System.out.println("Empty Queue");
             return;
         }
-        while (!priorityQueue.isEmpty()) {
-            Map.Entry<User, String> simpleEntry = priorityQueue.remove();
-            User user = simpleEntry.getKey();
-            String bookName = simpleEntry.getValue();
-            borrowBook(user, bookName);
-        }
+        priorityQueue
+                .getQueue()
+                .forEach((entry) -> borrowBook(entry.getKey(), entry.getValue()));
+        priorityQueue.clear();
     }
 
     // queues in the priorityQueue is processed and handled accordingly
@@ -60,12 +58,8 @@ public class LibraryUtil {
             System.out.println("Empty Queue");
             return;
         }
-        while (!normalQueue.isEmpty()) {
-            Map.Entry<User, String> simpleEntry = normalQueue.remove();
-            User user = simpleEntry.getKey();
-            String bookName = simpleEntry.getValue();
-            borrowBook(user, bookName);
-        }
+        normalQueue.forEach((entry) -> borrowBook(entry.getKey(), entry.getValue()));
+        normalQueue.clear();
     }
 
     // book is lent to user if book is available and user is eligible
