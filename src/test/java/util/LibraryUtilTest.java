@@ -3,6 +3,7 @@ package util;
 import model.*;
 
 import java.util.AbstractMap;
+import static util.MOCK_DATABASE.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,8 +19,10 @@ class LibraryUtilTest {
 
     @org.junit.jupiter.api.AfterEach
     void tearDown() {
-        LibraryUtil.bookCardUtil = new BookCardUtil();
-        LibraryUtil.libraryCardUtil = new LibraryCardUtil();
+        bookCardCatalog.clear();
+        libraryCardCatalog.clear();
+        priorityQueue.clear();
+        normalQueue.clear();
     }
 
 
@@ -28,9 +31,9 @@ class LibraryUtilTest {
         @org.junit.jupiter.api.Test
         void addNewBookToLibrary() {
             assertAll(
-                    () -> assertTrue(LibraryUtil.bookCardUtil.containsBook("purple hibiscus".toLowerCase())),
-                    () -> assertTrue(LibraryUtil.bookCardUtil.containsBook("Things Fall Apart".toLowerCase())),
-                    () -> assertTrue(LibraryUtil.bookCardUtil.containsBook("There was a Country".toLowerCase()))
+                    () -> assertTrue(bookCardCatalog.containsKey("purple hibiscus".toLowerCase())),
+                    () -> assertTrue(bookCardCatalog.containsKey("Things Fall Apart".toLowerCase())),
+                    () -> assertTrue(bookCardCatalog.containsKey("There was a Country".toLowerCase()))
             );
         }
     }
@@ -45,8 +48,9 @@ class LibraryUtilTest {
             String returnText = LibraryUtil.borrowBook(student, "how will you measure your life?");
 
             assertAll(
-                    () -> assertEquals("book successfully borrowed", returnText),
-                    () -> assertTrue(LibraryUtil.libraryCardUtil.hasUser(student.getName()))
+                    () -> assertEquals("Book (how will you measure your life?) borrowed successfully by Solomon",
+                            returnText),
+                    () -> assertTrue(libraryCardCatalog.containsKey(student.getName()))
             );
         }
 
@@ -61,8 +65,8 @@ class LibraryUtilTest {
             String returnText = LibraryUtil.borrowBook(student2, "how will you measure your life?");
 
             assertAll(
-                    () -> assertEquals("book taken", returnText),
-                    () -> assertFalse(LibraryUtil.libraryCardUtil.hasUser(student2.getName()))
+                    () -> assertEquals("BOOK_IS_NOT_ON_SHELF", returnText),
+                    () -> assertFalse(libraryCardCatalog.containsKey(student2.getName()))
             );
         }
 
@@ -73,10 +77,23 @@ class LibraryUtilTest {
             String returnText = LibraryUtil.borrowBook(student, "chike and the river");
 
             assertAll(
-                    () -> assertEquals("book is not in the library", returnText),
-                    () -> assertFalse(LibraryUtil.libraryCardUtil.hasUser(student.getName()))
+                    () -> assertEquals("LIBRARY_DOES_NOT_HAVE_BOOK", returnText),
+                    () -> assertFalse(libraryCardCatalog.containsKey(student.getName()))
             );
         }
+    }
+
+    @org.junit.jupiter.api.Test
+    void testThatPriorityQueueThrowsExceptionForNullUserAndEmptyBookName() {
+        Student student = null;
+        Staff teacher = new Staff("Emmanuella", "f", "1992-09-21",
+                "07068660641", "Academic", "Teacher", 0.0);
+
+        assertAll(
+                () -> assertThrows(IllegalArgumentException.class, () -> LibraryUtil.waitOnPriorityQueue(student, "Purple Hibiscus")),
+                () -> assertThrows(IllegalArgumentException.class, () -> LibraryUtil.waitOnPriorityQueue(teacher, "")),
+                () -> assertThrows(IllegalArgumentException.class, () -> LibraryUtil.waitOnPriorityQueue(teacher, "    "))
+        );
     }
 
 
@@ -130,6 +147,19 @@ class LibraryUtilTest {
     }
 
     @org.junit.jupiter.api.Test
+    void testThatNormalQueueThrowsExceptionForNullUserAndEmptyBookName() {
+        Student student = null;
+        Staff teacher = new Staff("Emmanuella", "f", "1992-09-21",
+                "07068660641", "Academic", "Teacher", 0.0);
+
+        assertAll(
+                () -> assertThrows(IllegalArgumentException.class, () -> LibraryUtil.waitOnNormalQueue(student, "Purple Hibiscus")),
+                () -> assertThrows(IllegalArgumentException.class, () -> LibraryUtil.waitOnNormalQueue(teacher, "")),
+                () -> assertThrows(IllegalArgumentException.class, () -> LibraryUtil.waitOnNormalQueue(teacher, "    "))
+        );
+    }
+
+    @org.junit.jupiter.api.Test
     void testThatNormalQueueOrdersByFirstInFirstServe() {
         Student student1 = new Student("Solomon", "male", "1992-09-21",
                 "07068660641", "001", Grade.CLASS_1);
@@ -151,16 +181,16 @@ class LibraryUtilTest {
         LibraryUtil.waitOnNormalQueue(teacher2, "Purple Hibiscus");
 
         assertAll(
-                () -> assertEquals(6, LibraryUtil.normalQueue.size()),
-                () -> assertEquals(new AbstractMap.SimpleImmutableEntry<>(student1, "purple hibiscus"), LibraryUtil.normalQueue.remove()),
-                () -> assertEquals(new AbstractMap.SimpleImmutableEntry<>(student3, "purple hibiscus"), LibraryUtil.normalQueue.remove()),
-                () -> assertEquals(new AbstractMap.SimpleImmutableEntry<>(student2, "things fall apart"), LibraryUtil.normalQueue.remove()),
-                () -> assertEquals(new AbstractMap.SimpleImmutableEntry<>(teacher1, "things fall apart"), LibraryUtil.normalQueue.remove()),
-                () -> assertEquals(new AbstractMap.SimpleImmutableEntry<>(student2, "purple hibiscus"), LibraryUtil.normalQueue.remove()),
-                () -> assertEquals(new AbstractMap.SimpleImmutableEntry<>(teacher2, "purple hibiscus"), LibraryUtil.normalQueue.remove()),
-                () -> assertEquals(0, LibraryUtil.normalQueue.size())
+                () -> assertEquals(6, normalQueue.size()),
+                () -> assertEquals(new AbstractMap.SimpleImmutableEntry<>(student1, "purple hibiscus"), normalQueue.remove()),
+                () -> assertEquals(new AbstractMap.SimpleImmutableEntry<>(student3, "purple hibiscus"), normalQueue.remove()),
+                () -> assertEquals(new AbstractMap.SimpleImmutableEntry<>(student2, "things fall apart"), normalQueue.remove()),
+                () -> assertEquals(new AbstractMap.SimpleImmutableEntry<>(teacher1, "things fall apart"), normalQueue.remove()),
+                () -> assertEquals(new AbstractMap.SimpleImmutableEntry<>(student2, "purple hibiscus"), normalQueue.remove()),
+                () -> assertEquals(new AbstractMap.SimpleImmutableEntry<>(teacher2, "purple hibiscus"), normalQueue.remove()),
+                () -> assertEquals(0, normalQueue.size())
         );
-        LibraryUtil.normalQueue.clear();
+        normalQueue.clear();
     }
 
     @org.junit.jupiter.api.Test
@@ -172,10 +202,10 @@ class LibraryUtilTest {
         LibraryUtil.waitOnNormalQueue(teacher3, "There was a country");
 
         assertAll(
-                () -> assertEquals(1, LibraryUtil.normalQueue.size()),
-                () -> assertEquals(new AbstractMap.SimpleImmutableEntry<>(teacher3, "there was a country"), LibraryUtil.normalQueue.remove())
+                () -> assertEquals(1, normalQueue.size()),
+                () -> assertEquals(new AbstractMap.SimpleImmutableEntry<>(teacher3, "there was a country"), normalQueue.remove())
         );
-        LibraryUtil.normalQueue.clear();
+        normalQueue.clear();
     }
 
     @org.junit.jupiter.api.Test
@@ -231,6 +261,93 @@ class LibraryUtilTest {
 
         LibraryUtil.processNormalQueue();
 
-        assertTrue(LibraryUtil.normalQueue.isEmpty());
+        assertTrue(normalQueue.isEmpty());
+    }
+
+    @org.junit.jupiter.api.Test
+    void testReturnBorrowedBook() {
+        Student student = new Student("Prince", "male", "1992-09-21",
+                "07068660641", "002", Grade.CLASS_3);
+        LibraryUtil.borrowBook(student, "Purple Hibiscus");
+        LibraryCard libraryCard = libraryCardCatalog.get(student.getName());
+
+
+        assertAll(
+                () -> assertTrue(libraryCardCatalog.containsKey(student.getName())),
+                () -> assertEquals(1, libraryCard.getBorrowedBooks().size(), "There should only be no book"),
+                () -> assertTrue(libraryCard.getBorrowedBooks().containsKey("purple hibiscus"), "Library card should remove book added"),
+                () -> assertFalse(BookValidatorService.isBookOnShelf().apply("Purple Hibiscus").truthValue),
+                () -> assertEquals(1, bookCardCatalog.get("purple hibiscus").getCopiesBorrowed())
+        );
+
+        LibraryUtil.returnBorrowedBook(student, "Purple Hibiscus");
+
+        assertAll(
+                () -> assertTrue(libraryCardCatalog.containsKey(student.getName())),
+                () -> assertEquals(0, libraryCard.getBorrowedBooks().size(), "There should only be no book"),
+                () -> assertFalse(libraryCard.getBorrowedBooks().containsKey("purple hibiscus"), "Library card should remove book added"),
+                () -> assertTrue(BookValidatorService.isBookOnShelf().apply("Purple Hibiscus").truthValue),
+                () -> assertEquals(0, bookCardCatalog.get("purple hibiscus").getCopiesBorrowed())
+        );
+    }
+
+    @org.junit.jupiter.api.Test
+    void collectBookFromShelfTest() {
+        LibraryUtil.addBookToLibrary("001", "Purple Hibiscus", "Chimamanda Adichie");
+        LibraryUtil.collectBookFromShelf("Purple Hibiscus");
+        assertEquals(1, bookCardCatalog.get("purple hibiscus").getCopiesBorrowed());
+    }
+
+    @org.junit.jupiter.api.Test
+    void testThatValidateUserReturnsApproriateResultForInvalidUser() {
+        LibraryUtil.addBookToLibrary("001", "Purple Hibiscus", "Chimamanda Adichie");
+        LibraryUtil.addBookToLibrary("002", "Things Fall Apart", "Chinua Achebe");
+        LibraryUtil.addBookToLibrary("002", "Things Fall Apart", "Chinua Achebe");
+
+
+        Student student1 = null;
+        Student student2 = new Student("Prince", "male", "1992-09-21",
+                "07068660641", "002", Grade.CLASS_3);
+        Staff teacher = new Staff("Daro", "m", "1992-09-21",
+                "07068660641", "Academic", "Teacher", 0.0);
+
+        LibraryUtil.borrowBook(student2, "Things Fall Apart");
+
+        LibraryUtil.borrowBook(teacher, "Purple Hibiscus");
+        LibraryUtil.borrowBook(teacher, "Things fall apart");
+        LibraryUtil.borrowBook(teacher, "How Will You Measure Your Life?");
+
+        UserValidatorService.UserValidationResult student1Result = LibraryUtil.validateUser.apply(student1, "How Will You Measure Your Life?");
+        UserValidatorService.UserValidationResult student2Result = LibraryUtil.validateUser.apply(student2, "Things Fall Apart");
+        UserValidatorService.UserValidationResult staffResult = LibraryUtil.validateUser.apply(teacher, "There was a country");
+
+        assertAll(
+                () -> assertFalse(student1Result.truthValue),
+                () -> assertEquals(UserValidatorService.UserValidationResult.INVALID_USER, student1Result),
+                () -> assertFalse(student2Result.truthValue),
+                () -> assertEquals(UserValidatorService.UserValidationResult.USER_ALREADY_BORROWED_SAME_BOOK, student2Result),
+                () -> assertFalse(staffResult.truthValue),
+                () -> assertEquals(UserValidatorService.UserValidationResult.EXCEEDED_BORROW_LIMIT, staffResult)
+        );
+    }
+
+    @org.junit.jupiter.api.Test
+    void testThatValidateUserReturnsAppropriateResultForValidUsers() {
+        Student student = new Student("Prince", "male", "1992-09-21",
+                "07068660641", "002", Grade.CLASS_3);
+        Staff teacher = new Staff("Daro", "m", "1992-09-21",
+                "07068660641", "Academic", "Teacher", 0.0);
+
+        LibraryUtil.borrowBook(student, "Things Fall Apart");
+
+        UserValidatorService.UserValidationResult studentResult = LibraryUtil.validateUser.apply(student, "Purple Hibiscus");
+        UserValidatorService.UserValidationResult staffResult = LibraryUtil.validateUser.apply(teacher, "There was a country");
+
+        assertAll(
+                () -> assertTrue(studentResult.truthValue),
+                () -> assertEquals(UserValidatorService.UserValidationResult.USER_IS_ELIGIBLE, studentResult),
+                () -> assertTrue(staffResult.truthValue),
+                () -> assertEquals(UserValidatorService.UserValidationResult.USER_IS_ELIGIBLE, staffResult)
+        );
     }
 }

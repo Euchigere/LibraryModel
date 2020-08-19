@@ -3,19 +3,14 @@ package util;
 import model.User;
 import java.util.Map;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
+import static util.MOCK_DATABASE.priorityQueue;
 
 /**
  * Custom priority queue implementation
  */
 
 public class MyPriorityQueue {
-    // Array implemented as queue to save entries
-    private List<Map.Entry<User, String>> priorityQueue = new ArrayList<>();
-
     public boolean add(Map.Entry<User, String> simpleEntry) {
         // Ensures only unique entries are added
         if (priorityQueue.contains(simpleEntry)) {

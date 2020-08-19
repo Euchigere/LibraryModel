@@ -3,6 +3,8 @@ package util;
 import model.Grade;
 import model.Staff;
 import model.Student;
+import static util.MOCK_DATABASE.priorityQueue;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,6 +18,11 @@ class MyPriorityQueueTest {
     @BeforeEach
     void setUp() {
         myPriorityQueue = new MyPriorityQueue();
+    }
+
+    @AfterEach
+    void tearDown() {
+        priorityQueue.clear();
     }
 
     @Test
